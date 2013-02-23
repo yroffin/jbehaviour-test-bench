@@ -92,6 +92,16 @@ public class Application extends Controller {
     }
     
     /**
+     * Display the 'new computer form'.
+     */
+    @Transactional(readOnly=true)
+    public static Result show() {
+        return ok(
+            show.render()
+        );
+    }
+
+    /**
      * Handle the 'new computer form' submission 
      */
     @Transactional

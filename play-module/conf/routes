@@ -9,6 +9,7 @@ GET     /                           controllers.Application.index()
 GET     /computers                  controllers.Application.list(p:Int ?= 0, s ?= "name", o ?= "asc", f ?= "")
 
 # Add computer
+GET     /computers/show             controllers.Application.show()
 GET     /computers/new              controllers.Application.create()
 POST    /computers                  controllers.Application.save()
 
