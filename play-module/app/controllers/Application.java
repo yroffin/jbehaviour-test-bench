@@ -92,12 +92,22 @@ public class Application extends Controller {
     }
     
     /**
-     * Display the 'new computer form'.
+     * Display the 'show' action.
      */
     @Transactional(readOnly=true)
     public static Result show() {
         return ok(
             show.render()
+        );
+    }
+
+    /**
+     * Display the 'test plan' action.
+     */
+    @Transactional(readOnly=true)
+    public static Result plan() {
+        return ok(
+            plan.render()
         );
     }
 

@@ -19,19 +19,52 @@ package org.jbehaviour.test;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.jbehaviour.exception.JBehaviourParsingError;
 import org.jbehaviour.exception.JBehaviourRuntimeError;
 import org.jbehaviour.impl.JBehaviourLauncher;
-import org.jbehaviour.plugins.system.ISystemAsyncTread;
-import org.jbehaviour.plugins.system.impl.SystemAsyncThread;
+import org.jbehaviour.test.remote.MockFtpServer;
+import org.jbehaviour.test.remote.MockSftpServer;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class GlobalTest {
+	
+	/**
+	 * single mock ftp server
+	 */
+	private MockFtpServer ftpMock;
+	private MockSftpServer sshMock;
+
+	@Before
+	public void setup() throws Exception{
+		/**
+		 * FTP mock
+		 */
+		ftpMock = new MockFtpServer(2121,"TestUsername", "TestPassword", new File("src/test/resources"));
+		ftpMock.addDir(new File(new File("src/test/resources/root").getAbsolutePath()));
+		ftpMock.start();
+
+		/**
+		 * SSH/SFTP/SCP Mock
+		 */
+		sshMock = new MockSftpServer(2222);
+		try {
+			sshMock.start();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+
 	@Test
 	public void testSystemAsyncThreadWithStory() throws InterruptedException, JBehaviourParsingError, JBehaviourRuntimeError {
-		assertEquals(true,(new JBehaviourLauncher()).registerAndExecute(new File("src/main/resources/global-test.story")));
+		assertEquals(true,(new JBehaviourLauncher()).registerAndExecute(new File("src/main/resources/global-test-windows.story")));
+	}
+
+	@After
+	public void tearDown() throws InterruptedException{
+		if(ftpMock != null) ftpMock.stop();
+		if(sshMock != null) sshMock.stop();
 	}
 }

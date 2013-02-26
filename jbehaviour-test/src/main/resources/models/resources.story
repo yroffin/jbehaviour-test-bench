@@ -8,6 +8,8 @@ Feature: all resources needed for this global test
   Register fluentlenium with 'org.jbehaviour.plugins.selenium.FluentleniumSteps' plugin
   # Sikuli plugin
   Register sikuli with 'org.jbehaviour.plugins.sikuli.JBehaviourSikuliSteps' plugin
+  # Remote plugin
+  Register remote with 'org.jbehaviour.plugins.remote.JBehaviourRemoteSteps' plugin
   # Selenium session
   Declare urlWeb as String 'http://localhost:9000'
   Declare playSampleApp as String 'Computers database'
@@ -18,6 +20,9 @@ Feature: all resources needed for this global test
   "outputFile001":"target/pageDump.hml",
   "outputFile002":"target/screen.png"
 }
+  # Single variable to declare remote hosts
+  Declare sftpResource as String 'sftp://none:none@localhost:2222'
+  Declare sshdResource as String 'ssh://none:none@localhost:2222'
 
 Scenario: Setup drivers
  Given set property 'webdriver.chrome.driver' to $chromeDriver

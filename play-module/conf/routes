@@ -10,6 +10,7 @@ GET     /computers                  controllers.Application.list(p:Int ?= 0, s ?
 
 # Add computer
 GET     /computers/show             controllers.Application.show()
+GET     /computers/plan             controllers.Application.plan()
 GET     /computers/new              controllers.Application.create()
 POST    /computers                  controllers.Application.save()
 
