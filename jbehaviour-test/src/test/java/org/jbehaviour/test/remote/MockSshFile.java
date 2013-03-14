@@ -34,6 +34,11 @@ public class MockSshFile implements SshFile {
 
 	public MockSshFile(String file) {
 		localfile = new File(root.getAbsoluteFile() + file);
+		try {
+			create();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private String normalize(File filename) {
@@ -122,7 +127,10 @@ public class MockSshFile implements SshFile {
 
 	@Override
 	public boolean create() throws IOException {
-		return false;
+		if(!localfile.exists()) {
+			return localfile.createNewFile();
+		}
+		return true;
 	}
 
 	@Override
@@ -145,6 +153,7 @@ public class MockSshFile implements SshFile {
 
 	@Override
 	public OutputStream createOutputStream(long offset) throws IOException {
+		create();
 		return new FileOutputStream(localfile);
 	}
 
@@ -155,5 +164,10 @@ public class MockSshFile implements SshFile {
 
 	@Override
 	public void handleClose() throws IOException {
+	}
+
+	@Override
+	public String toString() {
+		return "MockSshFile [localfile=" + localfile + ", root=" + root + "]";
 	}
 }
